@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codicemaya.springsocial;
+package com.codicemaya.springsocial.controlador;
 
+import com.codicemaya.springsocial.Usuario;
 import java.security.Principal;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -23,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/session")
-public class AuthenticationResource {
+public class SesionControlador {
 
-    protected static final Logger log = LoggerFactory.getLogger(AuthenticationResource.class);
+    protected static final Logger log = LoggerFactory.getLogger(SesionControlador.class);
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -35,7 +36,9 @@ public class AuthenticationResource {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(new Usuario(principal.getName()));
+        Usuario usuario = new Usuario();
+        usuario.setName(principal.getName());
+        return ResponseEntity.ok(usuario);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
