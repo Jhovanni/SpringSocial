@@ -1,5 +1,5 @@
 const LoginForm = () => (
-            <form action="/signin/twitter" method="post">
+            <form action="/auth/twitter" method="post">
                 <h1>Please login</h1>
                 <button type="submit">Login</button>
             </form>

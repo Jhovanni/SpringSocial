@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +30,12 @@ public class AuthenticationResource {
     AuthenticationManager authenticationManager;
 
     @RequestMapping(method = RequestMethod.GET)
-    public User session(Principal user) {
-        log.info("Entry {}", user);
-        String name = user == null ? null : user.getName();
-        return new User(name);
+    public ResponseEntity<?> session(Principal principal) {
+        log.info("Entry {}", principal);
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(new Usuario(principal.getName()));
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

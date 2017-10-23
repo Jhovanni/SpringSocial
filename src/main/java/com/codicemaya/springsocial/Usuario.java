@@ -5,18 +5,19 @@
  */
 package com.codicemaya.springsocial;
 
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.social.security.SocialUser;
+
 /**
  *
  * @author Jhovanni <jhovanni@github.com>
  */
-public class User {
+public class Usuario extends SocialUser {
 
     private String name;
 
-    public User() {
-    }
-
-    public User(String name) {
+    public Usuario(String name) {
+        super(name, name, AuthorityUtils.NO_AUTHORITIES);
         this.name = name;
     }
 
