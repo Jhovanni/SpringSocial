@@ -5,7 +5,6 @@
  */
 package com.codicemaya.springsocial.config;
 
-import com.codicemaya.springsocial.controlador.RegistroSocial;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

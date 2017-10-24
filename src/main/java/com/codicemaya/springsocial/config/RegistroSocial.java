@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codicemaya.springsocial.controlador;
+package com.codicemaya.springsocial.config;
 
 import com.codicemaya.springsocial.Usuario;
 import com.codicemaya.springsocial.UsuarioRepositorio;
@@ -21,9 +21,9 @@ import org.springframework.stereotype.Component;
  * @author Jhovanni <jhovanni@github.com>
  */
 @Component
-public class RegistroSocial implements ConnectionSignUp {
+class RegistroSocial implements ConnectionSignUp {
 
-    private static final Logger log = LoggerFactory.getLogger(RegistroSocial.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegistroSocial.class);
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
@@ -31,7 +31,6 @@ public class RegistroSocial implements ConnectionSignUp {
     @Override
     public String execute(Connection<?> connection) {
         ConnectionKey key = connection.getKey();
-        log.info("{}", key);
         UserProfile profile = connection.fetchUserProfile();
         String nombre = profile.getUsername();
         Usuario usuario = new Usuario();

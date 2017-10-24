@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,11 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/session")
 public class SesionControlador {
 
+    /**
+     * TODO:manejar cuando el proveedor no da acceso, redirecciona a signin,
+     * seguro se puede configuar en algún lado
+     */
     protected static final Logger log = LoggerFactory.getLogger(SesionControlador.class);
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<?> session(Principal principal) {
         log.info("Entry {}", principal);
         if (principal == null) {
@@ -41,7 +46,7 @@ public class SesionControlador {
         return ResponseEntity.ok(usuario);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     public ResponseEntity<Boolean> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok(Boolean.TRUE);
