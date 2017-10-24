@@ -8,10 +8,13 @@ package com.codicemaya.springsocial.config;
 import com.codicemaya.springsocial.controlador.RegistroSocial;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -19,6 +22,8 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.github.connect.GitHubConnectionFactory;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
 
 /**
  *
@@ -33,6 +38,22 @@ class SocialConfig extends SocialConfigurerAdapter {
     private DataSource dataSource;
     @Autowired
     private RegistroSocial registroSocial;
+    @Value("${google.appId}")
+    private String googleId;
+    @Value("${google.appSecret}")
+    private String googleSecret;
+    @Value("${github.appId}")
+    private String githubId;
+    @Value("${github.appSecret}")
+    private String githubSecret;
+
+    @Override
+    public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
+        connectionFactoryConfigurer
+                .addConnectionFactory(new GoogleConnectionFactory(googleId, googleSecret));
+        connectionFactoryConfigurer
+                .addConnectionFactory(new GitHubConnectionFactory(githubId, githubSecret));
+    }
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {

@@ -1,8 +1,19 @@
 const LoginForm = () => (
-            <form action="/auth/twitter" method="post">
-                <h1>Please login</h1>
-                <button type="submit">Login</button>
-            </form>
+            <div>
+                <form action="/auth/twitter" method="post">
+                    <h1>Twitter login</h1>
+                    <button type="submit">Login</button>
+                </form>
+                <form action="/auth/google" method="post">
+                    <input type="hidden" name="scope" value="publish_stream,offline_access" />
+                    <h1>Google login</h1>
+                    <button type="submit">Login</button>
+                </form>
+                <form action="/auth/github" method="post">
+                    <h1>Github login</h1>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
             );
 
 const LogoutComponent = (props) => (
