@@ -1,58 +1,15 @@
-const LoginForm = () => (
-            <div>
-                <form action="/auth/twitter" method="post">
-                    <h1>Twitter login</h1>
-                    <button type="submit">Login</button>
-                </form>
-                <form action="/auth/google" method="post">
-                    <input type="hidden" name="scope" value="publish_stream,offline_access" />
-                    <h1>Google login</h1>
-                    <button type="submit">Login</button>
-                </form>
-                <form action="/auth/github" method="post">
-                    <h1>Github login</h1>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-            );
-
-const LogoutComponent = (props) => (
-            <div>
-                <h2>Your name is {props.name}</h2>
-                <button onClick={props.logout}>Logout</button>
-            </div>
-            );
-
-class Main extends React.Component {
-
-    constructor(...args) {
-        super(...args);
-        this.state = {name: null};
-    }
-
-    componentDidMount() {
-        fetch('/api/session', {credentials: 'same-origin'})
-                .then(res => res.json())
-                .then(session => this.setState({name: session.name}));
-    }
-
-    logout() {
-        console.log("logout");
-        fetch('/api/session', {method: 'delete', credentials: 'same-origin'})
-                .then(res => this.setState({name: null}));
-    }
-
-    render() {
-        console.log(this.state.name);
-        const profile = this.state.name ?
-                <LogoutComponent name={this.state.name} logout={() => this.logout()}/> :
-                <LoginForm />;
-        return (
-                <div>
-                    {profile}
-                </div>
-                )
-    }
-}
-
-ReactDOM.render(<Main />, document.getElementById('container'));
+var springSocial = angular.module("springSocial", []);
+springSocial.controller("LoginCtrl", function ($scope, $http) {
+    $http.get('/api/session', []).then(function (data) {
+        $scope.usuario = data.data;
+    }, function (err) {
+        console.log("Error", err);
+    });
+    $scope.salir = function () {
+        $http.delete("api/session", []).then(function () {
+            $scope.usuario = null;
+        }, function (err) {
+            console.log("Sin poder salir", err);
+        });
+    };
+}); 

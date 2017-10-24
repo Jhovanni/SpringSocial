@@ -34,7 +34,7 @@ public class SesionControlador {
     public ResponseEntity<?> session(Principal principal) {
         log.info("Entry {}", principal);
         if (principal == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{}");
         }
         Usuario usuario = new Usuario();
         usuario.setName(principal.getName());
@@ -42,7 +42,8 @@ public class SesionControlador {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void logout(HttpSession session) {
+    public ResponseEntity<Boolean> logout(HttpSession session) {
         session.invalidate();
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 }

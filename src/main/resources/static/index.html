@@ -1,12 +1,31 @@
-<html>
+<!doctype html>
+<html ng-app="springSocial" lang="es">
     <head>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
-        <!--http://www.jimsproch.com/react/-->
-        <script src="vendor/babel-browser.js"></script>
-        <script type="text/babel" src="js/main.js"></script>
+        <title>SpringSocial</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="js/angular.min.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
     </head>
-    <body>
-        <div id="container"></div>
+    <body ng-controller="LoginCtrl">
+        <div ng-if="usuario">
+            <h2>Your name is {{usuario.name}}</h2>
+            <button ng-click="salir()">Logout</button>
+        </div>
+        <div ng-if="!usuario">
+            <form action="/auth/twitter" method="post">
+                <h1>Twitter login</h1>
+                <button type="submit">Login</button>
+            </form>
+            <form action="/auth/google" method="post">
+                <input type="hidden" name="scope" value="publish_stream,offline_access" />
+                <h1>Google login</h1>
+                <button type="submit">Login</button>
+            </form>
+            <form action="/auth/github" method="post">
+                <h1>Github login</h1>
+                <button type="submit">Login</button>
+            </form>
+        </div>
     </body>
 </html>
